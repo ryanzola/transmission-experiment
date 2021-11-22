@@ -1,4 +1,4 @@
-# ✨ Vue Three Starter ✨
+# ✨ Transmission Study 2: Bubbles ✨
 A simple webgl threejs creative dev environnement in Vue.JS with GLSLify loader 👨‍💻
 
 <div style="display: flex">
@@ -10,7 +10,7 @@ A simple webgl threejs creative dev environnement in Vue.JS with GLSLify loader 
 
 ## Project setup
 ```
-git clone https://github.com/MariusBallot/04-2021-Vue-Three-Starter.git
+git clone https://github.com/ryanzola/transmission-study-2.git
 npm i
 ```
 
