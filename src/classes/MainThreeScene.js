@@ -1,11 +1,13 @@
 import * as THREE from "three"
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+
 import { Pane } from 'tweakpane'
 
 import Camera from './Camera'
 import Renderer from './Renderer'
 import Controls from './Controls'
 
-import Cube from './DummyCube'
+import Bubble from "./Bubble";
 
 import RAF from '../utils/RAF'
 import Sizes from '../utils/Sizes'
@@ -32,24 +34,30 @@ export default class MainThreeScene {
 		
 		this.time = new Time()
 		this.sizes = new Sizes()
-		
-		this.bind()
-		this.setConfig()
-		this.setStats()
-		this.setDebug()
-		this.setScene()
-		this.setCamera()
-		this.setRenderer()
-		this.setControls()
 
-		this.setDummyCube()
+		this.background = new RGBELoader()
+			.setPath('/assets/img/equirectangular/')
+			.load('royal_esplanade.hdr', () => {
+				this.background.mapping = THREE.EquirectangularReflectionMapping;
 
-		//RENDER LOOP AND WINDOW SIZE UPDATER SETUP
-		this.sizes.on('resize', () => {
-			this.resize()
-		})
+			})
+			this.bind()
+			this.setConfig()
+			this.setStats()
+			this.setDebug()
+			this.setScene()
+			this.setCamera()
+			this.setRenderer()
+			this.setControls()
+	
+			this.setBubble()
 
-		RAF.subscribe('threeSceneUpdate', this.update)
+			//RENDER LOOP AND WINDOW SIZE UPDATER SETUP
+			this.sizes.on('resize', () => {
+				this.resize()
+			})
+
+			RAF.subscribe('threeSceneUpdate', this.update)
 	}
 
 	setConfig() {
@@ -82,11 +90,12 @@ export default class MainThreeScene {
 
 	setScene() {
 		this.scene = new THREE.Scene()
+		this.scene.background = this.background
 	}
 
 	setCamera() {
 		this.camera = new Camera()
-		this.camera.instance.position.set(0, 0, 8)
+		this.camera.instance.position.set(0, 0, 30)
 	}
 
 	setRenderer() {
@@ -98,8 +107,8 @@ export default class MainThreeScene {
 		this.controls = new Controls()
 	}
 
-	setDummyCube() {
-		this.cube = new Cube()
+	setBubble() {
+		this.bubble = new Bubble();
 	}
 
 	update() {
@@ -115,8 +124,8 @@ export default class MainThreeScene {
 		if(this.controls)
 			this.controls.update()
 
-		if(this.cube)
-			this.cube.update()
+		if(this.bubble)
+			this.bubble.update()
 	}
 
 	resize() {
